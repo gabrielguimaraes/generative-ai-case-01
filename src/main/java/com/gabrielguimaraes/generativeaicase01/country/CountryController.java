@@ -17,8 +17,6 @@ public class CountryController {
     this.countryRestClient = countryRestClient;
   }
 
-  public CountryController() {}
-
   @GetMapping("/countries")
   public List<String> getCountries(
       @RequestParam(value = "name", defaultValue = "") String name,
