@@ -1,14 +1,12 @@
 package com.gabrielguimaraes.generativeaicase01.country;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 @Component
 public class CountryRestClient implements RestClient {
@@ -25,8 +23,6 @@ public class CountryRestClient implements RestClient {
   @Override
   public List<Country> getCountries() {
     final Country[] countriesArray = restTemplate.getForEntity(ALL, Country[].class).getBody();
-    return Optional.ofNullable(countriesArray)
-            .map(List::of)
-            .orElse(Collections.emptyList());
+    return Optional.ofNullable(countriesArray).map(List::of).orElse(Collections.emptyList());
   }
 }

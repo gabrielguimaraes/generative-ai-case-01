@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class GenerativeAiCase01Application {
 
-	public static void main(String[] args) {
-		SpringApplication.run(GenerativeAiCase01Application.class, args);
-	}
-
+  public static void main(String[] args) {
+    SpringApplication.run(GenerativeAiCase01Application.class, args);
+  }
 }

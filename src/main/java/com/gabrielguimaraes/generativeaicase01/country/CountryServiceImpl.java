@@ -14,8 +14,7 @@ public class CountryServiceImpl implements CountryService {
     }
 
     return sourceCountries.stream()
-        .filter(
-            country -> getCountryCommonNameLowerCase(country).contains(name.toLowerCase()))
+        .filter(country -> getCountryCommonNameLowerCase(country).contains(name.toLowerCase()))
         .toList();
   }
 
