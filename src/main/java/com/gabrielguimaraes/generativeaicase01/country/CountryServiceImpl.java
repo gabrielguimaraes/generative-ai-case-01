@@ -30,6 +30,10 @@ public class CountryServiceImpl implements CountryService {
   @Override
   public List<Country> filterCountriesByPopulation(
       long populationInMillion, List<Country> sourceCountries) {
+    if (populationInMillion < 0) {
+      return sourceCountries;
+    }
+
     long population = 1_000_000 * populationInMillion;
     return sourceCountries.stream().filter(country -> country.population() < population).toList();
   }

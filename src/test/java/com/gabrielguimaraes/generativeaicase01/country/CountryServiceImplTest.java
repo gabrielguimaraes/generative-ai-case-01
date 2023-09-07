@@ -53,6 +53,8 @@ class CountryServiceImplTest {
         Arguments.of(10, List.of(ESTONIA)),
         Arguments.of(100, List.of(SPAIN, ESTONIA)),
         Arguments.of(0, Collections.emptyList()),
+        Arguments.of(-1, COUNTRIES),
+        Arguments.of(-10, COUNTRIES),
         Arguments.of(300, COUNTRIES));
   }
 
