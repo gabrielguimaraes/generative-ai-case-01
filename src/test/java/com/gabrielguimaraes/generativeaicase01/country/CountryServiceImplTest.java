@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -66,8 +67,9 @@ class CountryServiceImplTest {
     List<Country> actualCountries = countryServiceImpl.filterCountriesByName(name, COUNTRIES);
 
     // then
-    assertThat(actualCountries).hasSize(expectedCountries.size());
-    assertThat(actualCountries).containsExactlyInAnyOrderElementsOf(expectedCountries);
+    assertThat(actualCountries)
+        .hasSize(expectedCountries.size())
+        .containsExactlyInAnyOrderElementsOf(expectedCountries);
   }
 
   @ParameterizedTest
@@ -79,8 +81,9 @@ class CountryServiceImplTest {
         countryServiceImpl.filterCountriesByPopulation(populationInMillions, COUNTRIES);
 
     // then
-    assertThat(actualCountries).hasSize(expectedCountries.size());
-    assertThat(actualCountries).containsExactlyInAnyOrderElementsOf(expectedCountries);
+    assertThat(actualCountries)
+        .hasSize(expectedCountries.size())
+        .containsExactlyInAnyOrderElementsOf(expectedCountries);
   }
 
   @Test
@@ -91,10 +94,18 @@ class CountryServiceImplTest {
         countryServiceImpl.sortCountriesByName("descend", COUNTRIES);
 
     // then
-    assertThat(actualCountriesAsc).hasSize(COUNTRIES.size());
-    assertThat(actualCountriesAsc).containsExactly(BRAZIL, ESTONIA, SPAIN);
-    assertThat(actualCountriesDesc).hasSize(COUNTRIES.size());
-    assertThat(actualCountriesDesc).containsExactly(SPAIN, ESTONIA, BRAZIL);
+    SoftAssertions softly = new SoftAssertions();
+
+    softly
+        .assertThat(actualCountriesAsc)
+        .hasSize(COUNTRIES.size())
+        .containsExactly(BRAZIL, ESTONIA, SPAIN);
+    softly
+        .assertThat(actualCountriesDesc)
+        .hasSize(COUNTRIES.size())
+        .containsExactly(SPAIN, ESTONIA, BRAZIL);
+
+    softly.assertAll();
   }
 
   @Test
@@ -103,8 +114,7 @@ class CountryServiceImplTest {
     List<Country> actualCountries = countryServiceImpl.limitCountries(2, COUNTRIES);
 
     // then
-    assertThat(actualCountries).hasSize(2);
-    assertThat(actualCountries).containsExactly(BRAZIL, SPAIN);
+    assertThat(actualCountries).hasSize(2).containsExactly(BRAZIL, SPAIN);
   }
 
   @Test
@@ -122,7 +132,6 @@ class CountryServiceImplTest {
     List<Country> actualCountries = countryServiceImpl.limitCountries(-1, COUNTRIES);
 
     // then
-    assertThat(actualCountries).hasSize(3);
-    assertThat(actualCountries).containsExactlyElementsOf(COUNTRIES);
+    assertThat(actualCountries).hasSize(3).containsExactlyElementsOf(COUNTRIES);
   }
 }

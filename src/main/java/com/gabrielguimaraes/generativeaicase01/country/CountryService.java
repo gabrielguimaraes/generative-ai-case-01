@@ -1,6 +1,5 @@
 package com.gabrielguimaraes.generativeaicase01.country;
 
-import com.gabrielguimaraes.generativeaicase01.filter.SortType;
 
 import java.util.List;
 
