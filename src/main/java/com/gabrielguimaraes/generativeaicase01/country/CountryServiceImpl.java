@@ -18,6 +18,12 @@ public class CountryServiceImpl implements CountryService {
         .toList();
   }
 
+  @Override
+  public List<Country> filterCountriesByPopulation(long populationInMillion, List<Country> sourceCountries) {
+    long population = 1_000_000 * populationInMillion;
+    return sourceCountries.stream().filter(country -> country.population() < population).toList();
+  }
+
   private static String getCountryCommonNameLowerCase(Country country) {
     return Optional.ofNullable(country)
         .map(Country::name)

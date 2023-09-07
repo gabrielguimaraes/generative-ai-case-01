@@ -47,12 +47,33 @@ class CountryServiceImplTest {
         Arguments.of("x", Collections.emptyList()));
   }
 
+  public static Stream<Arguments> filterCountryByPopulationData() {
+    return Stream.of(
+        Arguments.of(10, List.of(ESTONIA)),
+        Arguments.of(100, List.of(SPAIN, ESTONIA)),
+        Arguments.of(0, Collections.emptyList()),
+        Arguments.of(300, COUNTRIES));
+  }
+
   @ParameterizedTest
   @MethodSource("filterCountryByNameData")
-  void givenCountries_whenFilterCountriesByName_thenReturnExpectedCountries(
+  void givenCountryName_whenFilterCountriesByName_thenReturnExpectedCountries(
       String name, List<Country> expectedCountries) {
     // given & when
     List<Country> actualCountries = countryServiceImpl.filterCountriesByName(name, COUNTRIES);
+
+    // then
+    assertThat(actualCountries).hasSize(expectedCountries.size());
+    assertThat(actualCountries).containsExactlyInAnyOrderElementsOf(expectedCountries);
+  }
+
+  @ParameterizedTest
+  @MethodSource("filterCountryByPopulationData")
+  void givenCountryPopulationInMillions_whenFilterCountriesByPopulation_thenReturnExpectedCountries(
+      long populationInMillions, List<Country> expectedCountries) {
+    // given & when
+    List<Country> actualCountries =
+        countryServiceImpl.filterCountriesByPopulation(populationInMillions, COUNTRIES);
 
     // then
     assertThat(actualCountries).hasSize(expectedCountries.size());
