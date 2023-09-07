@@ -89,6 +89,7 @@ class CountryServiceImplTest {
   @Test
   void givenSortTypes_whenSortCountriesByName_thenReturnExpectedCountriesInOrder() {
     // given & when
+    List<Country> actualCountriesNoSort = countryServiceImpl.sortCountriesByName(" ", COUNTRIES);
     List<Country> actualCountriesAsc = countryServiceImpl.sortCountriesByName("ascend", COUNTRIES);
     List<Country> actualCountriesDesc =
         countryServiceImpl.sortCountriesByName("descend", COUNTRIES);
@@ -96,6 +97,10 @@ class CountryServiceImplTest {
     // then
     SoftAssertions softly = new SoftAssertions();
 
+    softly
+        .assertThat(actualCountriesNoSort)
+        .hasSize(COUNTRIES.size())
+        .containsExactlyElementsOf(COUNTRIES);
     softly
         .assertThat(actualCountriesAsc)
         .hasSize(COUNTRIES.size())

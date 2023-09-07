@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class CountryServiceImpl implements CountryService {
@@ -40,6 +41,9 @@ public class CountryServiceImpl implements CountryService {
 
   @Override
   public List<Country> sortCountriesByName(String sortName, List<Country> sourceCountries) {
+    if (Strings.isBlank(sortName)) {
+      return sourceCountries;
+    }
     SortType sort = SortType.from(sortName);
     return sourceCountries.stream()
         .sorted(sort.getComparator(CountryServiceImpl::getCountryCommonNameLowerCase))
