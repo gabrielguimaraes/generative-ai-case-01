@@ -3,9 +3,11 @@ package com.gabrielguimaraes.generativeaicase01.country;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.gabrielguimaraes.generativeaicase01.filter.SortType;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -78,5 +80,20 @@ class CountryServiceImplTest {
     // then
     assertThat(actualCountries).hasSize(expectedCountries.size());
     assertThat(actualCountries).containsExactlyInAnyOrderElementsOf(expectedCountries);
+  }
+
+  @Test
+  void givenSortTypes_whenSortCountriesByName_thenReturnExpectedCountriesInOrder() {
+    // given & when
+    List<Country> actualCountriesAsc =
+        countryServiceImpl.sortCountriesByName("ascend", COUNTRIES);
+    List<Country> actualCountriesDesc =
+        countryServiceImpl.sortCountriesByName("descend", COUNTRIES);
+
+    // then
+    assertThat(actualCountriesAsc).hasSize(COUNTRIES.size());
+    assertThat(actualCountriesAsc).containsExactly(BRAZIL, ESTONIA, SPAIN);
+    assertThat(actualCountriesDesc).hasSize(COUNTRIES.size());
+    assertThat(actualCountriesDesc).containsExactly(SPAIN, ESTONIA, BRAZIL);
   }
 }

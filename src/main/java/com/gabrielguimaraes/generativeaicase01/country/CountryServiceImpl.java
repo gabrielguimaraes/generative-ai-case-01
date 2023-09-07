@@ -1,5 +1,6 @@
 package com.gabrielguimaraes.generativeaicase01.country;
 
+import com.gabrielguimaraes.generativeaicase01.filter.SortType;
 import java.util.List;
 import java.util.Optional;
 import org.apache.logging.log4j.util.Strings;
@@ -18,17 +19,26 @@ public class CountryServiceImpl implements CountryService {
         .toList();
   }
 
-  @Override
-  public List<Country> filterCountriesByPopulation(long populationInMillion, List<Country> sourceCountries) {
-    long population = 1_000_000 * populationInMillion;
-    return sourceCountries.stream().filter(country -> country.population() < population).toList();
-  }
-
   private static String getCountryCommonNameLowerCase(Country country) {
     return Optional.ofNullable(country)
         .map(Country::name)
         .map(CountryName::common)
         .map(String::toLowerCase)
         .orElse("");
+  }
+
+  @Override
+  public List<Country> filterCountriesByPopulation(
+      long populationInMillion, List<Country> sourceCountries) {
+    long population = 1_000_000 * populationInMillion;
+    return sourceCountries.stream().filter(country -> country.population() < population).toList();
+  }
+
+  @Override
+  public List<Country> sortCountriesByName(String sortName, List<Country> sourceCountries) {
+    SortType sort = SortType.from(sortName);
+    return sourceCountries.stream()
+        .sorted(sort.getComparator(CountryServiceImpl::getCountryCommonNameLowerCase))
+        .toList();
   }
 }
