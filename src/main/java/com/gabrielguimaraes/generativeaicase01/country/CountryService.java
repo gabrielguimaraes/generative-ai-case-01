@@ -10,4 +10,6 @@ public interface CountryService {
   List<Country> filterCountriesByPopulation(long population, List<Country> sourceCountries);
 
   List<Country> sortCountriesByName(String sortName, List<Country> sourceCountries);
+
+  List<Country> limitCountries(int limit, List<Country> sourceCountries);
 }

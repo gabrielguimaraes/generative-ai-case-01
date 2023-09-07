@@ -41,4 +41,12 @@ public class CountryServiceImpl implements CountryService {
         .sorted(sort.getComparator(CountryServiceImpl::getCountryCommonNameLowerCase))
         .toList();
   }
+
+  @Override
+  public List<Country> limitCountries(int limit, List<Country> sourceCountries) {
+    if (limit < 0) {
+      return sourceCountries;
+    }
+    return sourceCountries.stream().limit(limit).toList();
+  }
 }

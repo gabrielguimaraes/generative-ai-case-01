@@ -3,7 +3,6 @@ package com.gabrielguimaraes.generativeaicase01.country;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.gabrielguimaraes.generativeaicase01.filter.SortType;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
@@ -85,8 +84,7 @@ class CountryServiceImplTest {
   @Test
   void givenSortTypes_whenSortCountriesByName_thenReturnExpectedCountriesInOrder() {
     // given & when
-    List<Country> actualCountriesAsc =
-        countryServiceImpl.sortCountriesByName("ascend", COUNTRIES);
+    List<Country> actualCountriesAsc = countryServiceImpl.sortCountriesByName("ascend", COUNTRIES);
     List<Country> actualCountriesDesc =
         countryServiceImpl.sortCountriesByName("descend", COUNTRIES);
 
@@ -95,5 +93,34 @@ class CountryServiceImplTest {
     assertThat(actualCountriesAsc).containsExactly(BRAZIL, ESTONIA, SPAIN);
     assertThat(actualCountriesDesc).hasSize(COUNTRIES.size());
     assertThat(actualCountriesDesc).containsExactly(SPAIN, ESTONIA, BRAZIL);
+  }
+
+  @Test
+  void givenLimit_whenLimitCountries_thenReturnCorrectTotalCountries() {
+    // given & when
+    List<Country> actualCountries = countryServiceImpl.limitCountries(2, COUNTRIES);
+
+    // then
+    assertThat(actualCountries).hasSize(2);
+    assertThat(actualCountries).containsExactly(BRAZIL, SPAIN);
+  }
+
+  @Test
+  void givenLimitZero_whenLimitCountries_thenReturnCorrectTotalCountries() {
+    // given & when
+    List<Country> actualCountries = countryServiceImpl.limitCountries(0, COUNTRIES);
+
+    // then
+    assertThat(actualCountries).hasSize(0);
+  }
+
+  @Test
+  void givenLimitNegative_whenLimitCountries_thenReturnSameListOfCountries() {
+    // given & when
+    List<Country> actualCountries = countryServiceImpl.limitCountries(-1, COUNTRIES);
+
+    // then
+    assertThat(actualCountries).hasSize(3);
+    assertThat(actualCountries).containsExactlyElementsOf(COUNTRIES);
   }
 }
